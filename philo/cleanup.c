@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:23:23 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/18 13:54:54 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:59:50 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void cleanup_resources(t_philosophers *philos)
 {
     int i;
-    
+
     i = 0;
     while (i < philos->num_of_philos)
     {

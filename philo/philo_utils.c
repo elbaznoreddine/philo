@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 07:40:23 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/18 14:41:45 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/03/22 09:11:28 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ long	ft_atoi(const char *str)
 		result = result * 10 + (str[i] - '0');
 		if ((sign == 1 && result > INT_MAX)
 			|| (sign == -1 && result * sign < INT_MIN))
-			return (LONG_MAX);
+			return (0);
 		i++;
 	}
 	return (result * sign);
@@ -68,6 +68,6 @@ int ft_usleep(size_t milliseconds)
 
     start = get_time();
     while ((get_time() - start) < milliseconds)
-        usleep(500);
+        usleep(100);
     return (0);
 }

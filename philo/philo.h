@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:44:03 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/18 14:37:47 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/03/21 06:46:45 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	*philosopher_routine(void *arg);
 int		start_simulation(t_philosophers *philos);
 void	monitor_simulation(t_philosophers *philos);
 void	philo_eat(t_philo *philo);
+void	handle_one_philo(t_philosophers *philos);
 void	cleanup_resources(t_philosophers *philos);
 int ft_usleep(size_t milliseconds);
 long	ft_atoi(const char *str);

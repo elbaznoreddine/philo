@@ -1,5 +1,4 @@
 CFLAGS = -Wall -Wextra -Werror -pthread
-
 SRC = philo.c \
 	  parsing_philos.c \
 	  philo_utils.c \

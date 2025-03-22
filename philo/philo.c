@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:44:07 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/18 09:34:59 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/03/21 07:45:38 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int ac, char **av)
             printf("Error: Failed to start simulation\n");
             return (1);
         }
-        monitor_simulation(&philos);
+        // monitor_simulation(&philos);
         cleanup_resources(&philos);
         return (0);
     }
