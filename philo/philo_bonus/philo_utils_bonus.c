@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*   philo_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 07:40:23 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/23 10:49:38 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/03/23 12:36:44 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static int	is_space(char c)
 {
@@ -61,15 +61,15 @@ int	ft_usleep(size_t milliseconds)
 	return (0);
 }
 
-void	print_status(t_philo *philo, char *status)
+void	print_status(philosophers, char *status)
 {
 	size_t	current_time;
 
-	pthread_mutex_lock(&philo->shared->write_lock);
+	
 	if (!is_simulation_over(philo->shared))
 	{
 		current_time = get_time() - philo->shared->start_time;
 		printf("%zu %d %s\n", current_time, philo->id, status);
 	}
-	pthread_mutex_unlock(&philo->shared->write_lock);
+	
 }

@@ -10,7 +10,7 @@ OBJ = $(SRC:.c=.o)
 
 NAME = philo
 
-all = $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	@cc $(CFLAGS) $(OBJ) -o $(NAME)
