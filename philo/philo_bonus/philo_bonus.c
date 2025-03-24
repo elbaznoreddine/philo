@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:44:07 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/23 12:37:29 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:40:48 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ static void	ft_puterror(char *str)
 	while (str[i])
 		write(2, &str[i++], 1);
 }
+void exit_philosophers(char *message, int free_philos, t_philosophers *philosophers, int need_k)
+{
+    if (message)
+        printf("%s\n", message);
+    cleanup_resources(philosophers, free_philos, need_k);
+    exit(1);
+}
 
 int	main(int ac, char **av)
 {
@@ -29,20 +36,13 @@ int	main(int ac, char **av)
 	{
 		if (!parse_philos(&philosophers, av))
 		{
-			ft_puterror("Error: Invalid arguments\n");
-			return (1);
+			exit_philosophers("Error: Invalid arguments\n", 1, &philosophers, 0);
 		}
 		if (!init_philosophers(&philosophers))
 		{
-			ft_puterror("Error: Failed to initialize philosophers\n");
-			return (1);
+			exit_philosophers("Error: Failed to initialize philosophers\n", 1, &philosophers, 0);
 		}
-		if (!start_simulation(&philosophers))
-		{
-			ft_puterror("Error: Failed to start simulation\n");
-			return (1);
-		}
-		cleanup_resources(&philosophers);
+		cleanup_resources(&philosophers, 1, 1);
 		return (0);
 	}
 	ft_puterror("Error: Wrong number of argument\n");
