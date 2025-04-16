@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:32:42 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/04/14 09:20:52 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:25:11 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ int	init_philosophers(t_philosophers	*philosophers)
 		{
 			philosophers->id = i + 1;
 			philosophers->last_meal = philosophers->start_time;
-			if (pthread_create(&philosophers->thread_monitor, NULL,&superviseur, philosophers))
-				exit_philosophers("faile to create thread", 1, philosophers, 0);
-			if (pthread_detach(philosophers->thread_monitor) != 0)
-				exit_philosophers("faile to detach thread", 1, philosophers, 0);
+			// if (pthread_create(&philosophers->thread_monitor, NULL,&superviseur, philosophers))
+			// 	exit_philosophers("faile to create thread", 1, philosophers, 0);
+			// if (pthread_detach(philosophers->thread_monitor) != 0)
+			// 	exit_philosophers("faile to detach thread", 1, philosophers, 0);
 			philosopher_routine(philosophers);
 			exit(0);
 		}

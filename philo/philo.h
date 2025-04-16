@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:44:03 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/23 11:27:15 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:24:16 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct philo
 {
 	pthread_t		thread;
 	int				id;
-	int				eating;
 	int				meals_eaten;
 	size_t			last_meal;
 	pthread_mutex_t	*r_fork;
@@ -58,8 +57,11 @@ void	*philosopher_routine(void *arg);
 int		start_simulation(t_philosophers *philosophers);
 void	monitor_simulation(t_philosophers *philosophers);
 void	philo_eat(t_philo *philo);
-void	handle_one_philo(t_philosophers *philosophers);
-void	cleanup_resources(t_philosophers *philosophers);
-int		ft_usleep(size_t milliseconds);
+int		check_philosopher_died(t_philosophers *philosophers, int i);
+int		check_all_ate_enough(t_philosophers *philosopher);
+void	handle_one_philo(t_philo *philo);
+int		cleanup_resources(t_philosophers *philosophers);
+void	ft_usleep(size_t milliseconds, t_philosophers *philosophers);
 long	ft_atoi(const char *str);
+void	cleanup_error(t_philosophers *philosophers);
 #endif

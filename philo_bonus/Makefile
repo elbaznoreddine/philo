@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=thread
 SRC = philo_bonus.c \
 	  parsing_philo_bonus.c \
 	  philo_utils_bonus.c \
@@ -13,7 +13,7 @@ NAME = philo_bonus
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@cc $(CFLAGS) $(OBJ) -o $(NAME)
+	@cc $(CFLAGS) $(OBJ) -o $(NAME) 
 	@echo "Done maked"
 
 %.o : %.c philo_bonus.h

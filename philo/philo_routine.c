@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:19:41 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/23 11:33:03 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:03:51 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,36 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(&philo->shared->meal_lock);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->shared->meal_lock);
-	if (philo->id % 2 != 0)
-		ft_usleep(philo->shared->time_to_eat / 2);
-	while (!is_simulation_over(philo->shared))
+	if (philo->id % 2 == 0 || philo->id == philo->shared->num_of_philos)
+		ft_usleep(philo->shared->time_to_eat / 2, philo->shared);
+	while (1)
 	{
+		if (is_simulation_over(philo->shared))
+			break ;
 		philo_eat(philo);
-		if (philo->shared->num_times_to_eat != -1
-			&& philo->meals_eaten >= philo->shared->num_times_to_eat)
+		if (is_simulation_over(philo->shared))
 			break ;
 		print_status(philo, "is sleeping");
-		ft_usleep(philo->shared->time_to_sleep);
+		ft_usleep(philo->shared->time_to_sleep, philo->shared);
+		if (is_simulation_over(philo->shared))
+			break ;
 		print_status(philo, "is thinking");
 	}
 	return (NULL);
 }
 
-void	handle_one_philo(t_philosophers *philosophers)
+void	handle_one_philo(t_philo *philo)
 {
-	printf("%zu %d %s\n", get_time() - philosophers->start_time, 1,
+	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(&philo->shared->write_lock);
+	printf("%zu %d %s\n", get_time() - philo->shared->start_time, 1,
 		"has taken a fork");
-	ft_usleep(philosophers->time_to_die);
-	printf("%zu %d %s\n", get_time() - philosophers->start_time, 1, "die");
+	pthread_mutex_unlock(&philo->shared->write_lock);
+	ft_usleep(philo->shared->time_to_die, philo->shared);
+	pthread_mutex_lock(&philo->shared->write_lock);
+	printf("%zu %d %s\n", get_time() - philo->shared->start_time, 1, "died");
+	pthread_mutex_unlock(&philo->shared->write_lock);
+	pthread_mutex_lock(philo->l_fork);
 }
 
 int	is_simulation_over(t_philosophers *philosophers)

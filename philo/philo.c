@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:44:07 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/23 11:37:12 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:15:58 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int	main(int ac, char **av)
 		}
 		if (!start_simulation(&philosophers))
 		{
+			cleanup_error(&philosophers);
 			ft_puterror("Error: Failed to start simulation\n");
 			return (1);
 		}
-		cleanup_resources(&philosophers);
+		if (!cleanup_resources(&philosophers))
+			return (ft_puterror("Error: join problem\n"), 1);
 		return (0);
 	}
-	ft_puterror("Error: Wrong number of argument\n");
-	return (1);
+	return (ft_puterror("Error: Wrong number of argument\n"), 1);
 }

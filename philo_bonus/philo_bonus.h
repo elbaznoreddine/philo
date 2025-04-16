@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:44:03 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/26 12:08:26 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:25:20 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 typedef struct philosophers
 {
-	pthread_t		thread_monitor;
+	// pthread_t		thread_monitor;
 	int				id;
 	sem_t			*meal_lock;
 	sem_t			*write_lock;
