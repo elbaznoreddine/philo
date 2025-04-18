@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:32:42 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/04/16 18:25:11 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:10:54 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	init_semaphore(t_philosophers *philosophers)
 	sem_unlink("/forks");
 	philosophers->meal_lock = sem_open("/meal_lock", O_CREAT, 0644, 1);
 	philosophers->write_lock = sem_open("/write_lock", O_CREAT, 0644, 1);
-	philosophers->forks = sem_open("/forks", O_CREAT, 0644, philosophers->num_of_philos);
+	philosophers->forks = sem_open("/forks", O_CREAT, 0644,
+			philosophers->num_of_philos);
 	if (philosophers->meal_lock == SEM_FAILED
 		|| philosophers->write_lock == SEM_FAILED
 		|| philosophers->forks == SEM_FAILED)
@@ -49,7 +50,7 @@ int	parse_philos(t_philosophers *philosophers, char **av)
 	philosophers->write_lock = NULL;
 	philosophers->meal_lock = NULL;
 	philosophers->last_meal = 0;
-	if(!init_semaphore(philosophers))
+	if (!init_semaphore(philosophers))
 		return (0);
 	return (1);
 }
@@ -60,8 +61,6 @@ int	init_philosophers(t_philosophers	*philosophers)
 
 	i = -1;
 	philosophers->start_time = get_time();
-	if (philosophers->num_of_philos == 1)
-		return (handle_one_philo(philosophers), 1);
 	while (++i < philosophers->num_of_philos)
 	{
 		philosophers->philos[i] = fork();
@@ -71,10 +70,11 @@ int	init_philosophers(t_philosophers	*philosophers)
 		{
 			philosophers->id = i + 1;
 			philosophers->last_meal = philosophers->start_time;
-			// if (pthread_create(&philosophers->thread_monitor, NULL,&superviseur, philosophers))
-			// 	exit_philosophers("faile to create thread", 1, philosophers, 0);
-			// if (pthread_detach(philosophers->thread_monitor) != 0)
-			// 	exit_philosophers("faile to detach thread", 1, philosophers, 0);
+			if (pthread_create(&philosophers->thread_monitor, NULL,
+					(void *)superviseur, philosophers))
+				exit_philosophers("faile to create thread", 1, philosophers, 0);
+			if (pthread_detach(philosophers->thread_monitor) != 0)
+				exit_philosophers("faile to detach thread", 1, philosophers, 0);
 			philosopher_routine(philosophers);
 			exit(0);
 		}

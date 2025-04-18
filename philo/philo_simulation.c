@@ -14,9 +14,19 @@
 
 void	philo_eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_t	*l;
+	pthread_mutex_t	*r;
+
+	l = philo->l_fork;
+	r = philo->r_fork;
+	if (philo->id == philo->shared->num_of_philos)
+	{
+		l = philo[0].r_fork;
+		r = philo->l_fork;
+	}
+	pthread_mutex_lock(l);
 	print_status(philo, "has taken a fork");
-	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(r);
 	print_status(philo, "has taken a fork");
 	print_status(philo, "is eating");
 	pthread_mutex_lock(&philo->shared->meal_lock);
@@ -26,8 +36,8 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_lock(&philo->shared->meal_lock);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->shared->meal_lock);
-	pthread_mutex_unlock(philo->r_fork);
-	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(r);
+	pthread_mutex_unlock(l);
 }
 
 int	start_simulation(t_philosophers *philosophers)
@@ -40,14 +50,16 @@ int	start_simulation(t_philosophers *philosophers)
 		if (pthread_create(&philosophers->philo[i].thread, NULL,
 				(void *)handle_one_philo, &philosophers) != 0)
 			return (0);
-		return (1);
 	}
-	while (i < philosophers->num_of_philos)
+	else
 	{
-		if (pthread_create(&philosophers->philo[i].thread, NULL,
-				philosopher_routine, &philosophers->philo[i]) != 0)
-			return (0);
-		i++;
+		while (i < philosophers->num_of_philos)
+		{
+			if (pthread_create(&philosophers->philo[i].thread, NULL,
+					philosopher_routine, &philosophers->philo[i]) != 0)
+				return (0);
+			i++;
+		}
 	}
 	monitor_simulation(philosophers);
 	return (1);

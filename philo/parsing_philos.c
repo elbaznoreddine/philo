@@ -82,9 +82,9 @@ int	init_threads(t_philosophers *philosophers)
 		philosophers->philo[i].meals_eaten = 0;
 		philosophers->philo[i].last_meal = philosophers->start_time;
 		philosophers->philo[i].shared = philosophers;
+		philosophers->philo[i].l_fork = &philosophers->forks[i];
 		philosophers->philo[i].r_fork = &philosophers->forks[(i + 1)
 			% philosophers->num_of_philos];
-		philosophers->philo[i].l_fork = &philosophers->forks[i];
 		i++;
 	}
 	return (1);

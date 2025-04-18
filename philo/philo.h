@@ -59,7 +59,7 @@ void	monitor_simulation(t_philosophers *philosophers);
 void	philo_eat(t_philo *philo);
 int		check_philosopher_died(t_philosophers *philosophers, int i);
 int		check_all_ate_enough(t_philosophers *philosopher);
-void	handle_one_philo(t_philo *philo);
+void	handle_one_philo(t_philosophers *philosophers);
 int		cleanup_resources(t_philosophers *philosophers);
 void	ft_usleep(size_t milliseconds, t_philosophers *philosophers);
 long	ft_atoi(const char *str);

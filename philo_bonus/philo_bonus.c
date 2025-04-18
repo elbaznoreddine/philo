@@ -20,12 +20,14 @@ static void	ft_puterror(char *str)
 	while (str[i])
 		write(2, &str[i++], 1);
 }
-void exit_philosophers(char *message, int free_philos, t_philosophers *philosophers, int need_k)
+
+void	exit_philosophers(char *message, int free_philos,
+	t_philosophers *philosophers, int need_k)
 {
-    if (message)
-        printf("%s\n", message);
-    cleanup_resources(philosophers, free_philos, need_k);
-    exit(1);
+	if (message)
+		printf("%s\n", message);
+	cleanup_resources(philosophers, free_philos, need_k);
+	exit(1);
 }
 
 int	main(int ac, char **av)
@@ -40,7 +42,8 @@ int	main(int ac, char **av)
 		}
 		if (!init_philosophers(&philosophers))
 		{
-			exit_philosophers("Error: Failed to initialize philosophers\n", 1, &philosophers, 0);
+			exit_philosophers("Error: Failed to initialize philosophers\n",
+				1, &philosophers, 0);
 		}
 		cleanup_resources(&philosophers, 1, 1);
 		return (0);

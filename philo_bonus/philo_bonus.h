@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:44:03 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/04/16 18:25:20 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:36:22 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-#include <signal.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 typedef struct philosophers
 {
-	// pthread_t		thread_monitor;
+	pthread_t		thread_monitor;
 	int				id;
 	sem_t			*meal_lock;
 	sem_t			*write_lock;
@@ -44,7 +46,7 @@ int		parse_philos(t_philosophers *philosophers, char **av);
 int		init_philosophers(t_philosophers	*philosophers);
 int		init_threads(t_philosophers *philosophers);
 size_t	get_time(void);
-void	*superviseur(void	*arg);
+void	*superviseur(t_philosophers *philosophers);
 int		is_simulation_over(t_philosophers *philosophers);
 void	print_status(t_philosophers *philo, char *status);
 void	*philosopher_routine(t_philosophers	*philosophers);
@@ -54,8 +56,10 @@ void	philo_eat(t_philosophers *philosophers);
 void	philo_take(t_philosophers *philosophers);
 void	philo_sleep(t_philosophers *philosophers);
 void	handle_one_philo(t_philosophers *philosophers);
-void	cleanup_resources(t_philosophers *philosophers, int free_philo, int need_k);
-void exit_philosophers(char *message, int free_philos, t_philosophers *philosophers, int need_k);
+void	cleanup_resources(t_philosophers *philosophers, int free_philo,
+			int need_k);
+void	exit_philosophers(char *message, int free_philos,
+			t_philosophers *philosophers, int need_k);
 int		ft_usleep(size_t milliseconds);
 long	ft_atoi(const char *str);
 #endif

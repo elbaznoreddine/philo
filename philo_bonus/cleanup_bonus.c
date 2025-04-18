@@ -6,31 +6,37 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:23:23 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/04/16 18:30:40 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:32:56 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	cleanup_resources(t_philosophers *philosophers, int free_philo, int need_k)
+static void	kill_all_if_need(t_philosophers *philosophers)
 {
 	int	i;
 	int	status;
 
 	i = -1;
+	while (++i < philosophers->num_of_philos)
+	{
+		waitpid(-1, &status, 0);
+		if (status != 0)
+		{
+			i = -1;
+			while (++i < philosophers->num_of_philos)
+				kill(philosophers->philos[i], SIGKILL);
+			break ;
+		}
+	}
+}
+
+void	cleanup_resources(t_philosophers *philosophers,
+	int free_philo, int need_k)
+{
 	if (need_k)
 	{
-		while (++i < philosophers->num_of_philos)
-		{
-			waitpid(-1, &status, 0);
-			if (status != 0)
-			{
-				i = -1;
-				while (++i < philosophers->num_of_philos)
-					kill(philosophers->philos[i], SIGKILL);
-				break;
-			}
-		}
+		kill_all_if_need(philosophers);
 	}
 	if (philosophers->philos && free_philo)
 		free(philosophers->philos);

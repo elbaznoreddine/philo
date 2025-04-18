@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread
 SRC = philo_bonus.c \
 	  parsing_philo_bonus.c \
 	  philo_utils_bonus.c \

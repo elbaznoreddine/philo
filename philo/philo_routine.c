@@ -17,7 +17,7 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0 || philo->id == philo->shared->num_of_philos)
+	if (philo->id % 2 == 0)
 		ft_usleep(philo->shared->time_to_eat / 2, philo->shared);
 	while (1)
 	{
@@ -35,18 +35,12 @@ void	*philosopher_routine(void *arg)
 	return (NULL);
 }
 
-void	handle_one_philo(t_philo *philo)
+void	handle_one_philo(t_philosophers	*philosophers)
 {
-	pthread_mutex_lock(philo->l_fork);
-	pthread_mutex_lock(&philo->shared->write_lock);
-	printf("%zu %d %s\n", get_time() - philo->shared->start_time, 1,
+	philosophers->start_time = get_time();
+	printf("%zu %d %s\n", get_time() - philosophers->start_time, 1,
 		"has taken a fork");
-	pthread_mutex_unlock(&philo->shared->write_lock);
-	ft_usleep(philo->shared->time_to_die, philo->shared);
-	pthread_mutex_lock(&philo->shared->write_lock);
-	printf("%zu %d %s\n", get_time() - philo->shared->start_time, 1, "died");
-	pthread_mutex_unlock(&philo->shared->write_lock);
-	pthread_mutex_lock(philo->l_fork);
+	ft_usleep(philosophers->time_to_die, philosophers);
 }
 
 int	is_simulation_over(t_philosophers *philosophers)
