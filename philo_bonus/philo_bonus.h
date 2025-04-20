@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:44:03 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/24 11:36:22 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/20 05:59:36 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct philosophers
 	int				num_of_philos;
 	int				num_times_to_eat;
 	size_t			start_time;
-	size_t			last_meal;
-	int				meals_eaten;
+	_Atomic size_t	last_meal;
+	_Atomic int		meals_eaten;
 	int				*philos;
 }					t_philosophers;
 

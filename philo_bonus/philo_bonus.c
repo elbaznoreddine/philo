@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:44:07 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/24 12:40:48 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/20 06:00:24 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	main(int ac, char **av)
 	{
 		if (!parse_philos(&philosophers, av))
 		{
-			exit_philosophers("Error: Invalid arguments\n", 1, &philosophers, 0);
+			exit_philosophers("Error: Invalid arguments\n",
+				1, &philosophers, 0);
 		}
 		if (!init_philosophers(&philosophers))
 		{
