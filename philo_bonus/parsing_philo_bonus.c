@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:32:42 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/04/20 01:01:17 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:06:11 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,23 @@ static int	init_semaphore(t_philosophers *philosophers)
 	return (1);
 }
 
+static void	fail_fork(t_philosophers *philosophers, int i)
+{
+	while (i > 0)
+	{
+		kill(philosophers->philos[--i], SIGKILL);
+	}
+	exit(1);
+}
+
 int	parse_philos(t_philosophers *philosophers, char **av)
 {
 	philosophers->num_of_philos = (int)ft_atoi(av[1]);
-	philosophers->time_to_die = (int)ft_atoi(av[2]);
-	philosophers->time_to_eat = (int)ft_atoi(av[3]);
-	philosophers->time_to_sleep = (int)ft_atoi(av[4]);
+	philosophers->time_to_die = (size_t)ft_atoi(av[2]);
+	philosophers->time_to_eat = (size_t)ft_atoi(av[3]);
+	philosophers->time_to_sleep = (size_t)ft_atoi(av[4]);
 	if (av[5])
-		philosophers->num_times_to_eat = ft_atoi(av[5]);
+		philosophers->num_times_to_eat = (int)ft_atoi(av[5]);
 	else
 		philosophers->num_times_to_eat = -1;
 	if (philosophers->num_of_philos <= 0 || philosophers->time_to_die <= 0
@@ -65,7 +74,9 @@ int	init_philosophers(t_philosophers	*philosophers)
 	{
 		philosophers->philos[i] = fork();
 		if (philosophers->philos[i] == -1)
-			return (0);
+		{
+			fail_fork(philosophers, i);
+		}
 		if (philosophers->philos[i] == 0)
 		{
 			philosophers->id = i + 1;

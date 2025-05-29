@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:19:41 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/04/20 05:40:14 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/22 23:06:55 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	*superviseur(t_philosophers *philosophers)
 		if (philosophers->num_times_to_eat != -1
 			&& (meal >= philosophers->num_times_to_eat))
 			exit(0);
+		usleep(500);
 	}
 	return (NULL);
 }

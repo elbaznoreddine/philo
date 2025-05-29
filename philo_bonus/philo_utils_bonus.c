@@ -6,16 +6,11 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 07:40:23 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/03/24 08:28:29 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/05/12 09:55:57 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-static int	is_space(char c)
-{
-	return (c == ' ' || (c >= 9 && c <= 13));
-}
 
 long	ft_atoi(const char *str)
 {
@@ -24,8 +19,6 @@ long	ft_atoi(const char *str)
 
 	i = 0;
 	result = 0;
-	while (is_space(str[i]))
-		i++;
 	if (str[i] == '+')
 		i++;
 	while (str[i] && (str[i] <= '9' && str[i] >= '0'))
@@ -35,8 +28,6 @@ long	ft_atoi(const char *str)
 			return (0);
 		i++;
 	}
-	while (is_space(str[i]))
-		i++;
 	if (str[i] == '\0')
 		return (result);
 	return (0);
@@ -46,8 +37,7 @@ size_t	get_time(void)
 {
 	struct timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		write(2, "gettimeofday() error\n", 22);
+	gettimeofday(&time, NULL);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 

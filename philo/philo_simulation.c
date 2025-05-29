@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:09:04 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/04/16 15:11:38 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:00:51 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,8 @@ int	start_simulation(t_philosophers *philosophers)
 	}
 	else
 	{
-		while (i < philosophers->num_of_philos)
-		{
-			if (pthread_create(&philosophers->philo[i].thread, NULL,
-					philosopher_routine, &philosophers->philo[i]) != 0)
-				return (0);
-			i++;
-		}
+		if (!create_thread(philosophers))
+			return (0);
 	}
 	monitor_simulation(philosophers);
 	return (1);

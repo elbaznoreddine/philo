@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:45:35 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/04/15 19:26:00 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:03:09 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ static int	create_forks(t_philosophers	*philosophers)
 		{
 			while (i > 0)
 				pthread_mutex_destroy(&philosophers->forks[--i]);
+			pthread_mutex_destroy(&philosophers->dead_lock);
+			pthread_mutex_destroy(&philosophers->meal_lock);
+			pthread_mutex_destroy(&philosophers->write_lock);
 			return (free(philosophers->forks), 0);
 		}
 		i++;
@@ -54,13 +57,14 @@ int	init_philosophers(t_philosophers *philosophers)
 	if (pthread_mutex_init(&philosophers->dead_lock, NULL) != 0)
 		return (0);
 	if (pthread_mutex_init(&philosophers->meal_lock, NULL) != 0)
-		return (0);
+		return (pthread_mutex_destroy(&philosophers->dead_lock), 0);
 	if (pthread_mutex_init(&philosophers->write_lock, NULL) != 0)
-		return (0);
+		return (pthread_mutex_destroy(&philosophers->dead_lock),
+			pthread_mutex_destroy(&philosophers->meal_lock), 0);
 	philosophers->forks = malloc(sizeof(pthread_mutex_t)
 			* philosophers->num_of_philos);
 	if (!philosophers->forks)
-		return (0);
+		return (cleanup_error(philosophers), 0);
 	if (!create_forks(philosophers))
 		return (0);
 	philosophers->philo = malloc(sizeof(t_philo) * philosophers->num_of_philos);

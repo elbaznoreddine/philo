@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 07:40:23 by noel-baz          #+#    #+#             */
-/*   Updated: 2025/04/16 15:04:24 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/05/12 09:57:03 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ size_t	get_time(void)
 {
 	struct timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		write(2, "gettimeofday() error\n", 22);
+	gettimeofday(&time, NULL);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
@@ -69,4 +68,29 @@ void	print_status(t_philo *philo, char *status)
 			philo->id, status);
 	}
 	pthread_mutex_unlock(&philo->shared->write_lock);
+}
+
+int	create_thread(t_philosophers *philosophers)
+{
+	int	i;
+
+	i = 0;
+	while (i < philosophers->num_of_philos)
+	{
+		if (pthread_create(&philosophers->philo[i].thread, NULL,
+				philosopher_routine, &philosophers->philo[i]) != 0)
+		{
+			pthread_mutex_lock(&philosophers->dead_lock);
+			philosophers->dead_flag = 1;
+			pthread_mutex_unlock(&philosophers->dead_lock);
+			while (i > 0)
+			{
+				if (pthread_detach(philosophers->philo[--i].thread) != 0)
+					return (0);
+			}
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }
